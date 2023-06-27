@@ -1,6 +1,8 @@
-import { useState } from "react";
-import styled from "styled-components";
-import TextareaAutosize from 'react-textarea-autosize';
+import { useState } from 'react'
+import styled from 'styled-components'
+import TextareaAutosize from 'react-textarea-autosize'
+
+import Button from '../layouts/Button'
 
 const Flexdiv = styled.div`
   display: flex;
@@ -9,15 +11,15 @@ const Flexdiv = styled.div`
   margin-top: 30px;
 `
 
-const CreatePostContainer = styled.div`
+const CreatePostContainer = styled.form`
   width: 530px;
   min-height: 105px;
-  border: 1px solid ${props => props.theme.inputBorder};
+  border: 1px solid ${(props) => props.theme.inputBorder};
   box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.25);
-  background-color: ${props => props.theme.white};
+  background-color: ${(props) => props.theme.white};
 `
 
-const TitleContent = styled.div`
+export const TitleContent = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0 20px;
@@ -30,7 +32,7 @@ const TitleContent = styled.div`
     right: 0;
     bottom: 0;
     height: 1px;
-    background-color: ${props => props.theme.inputBorder};
+    background-color: ${(props) => props.theme.inputBorder};
   }
 `
 
@@ -44,6 +46,15 @@ const Textarea = styled(TextareaAutosize)`
   border: none;
   padding: 15px 20px;
   width: 100%;
+
+  &:focus {
+    outline: none;
+  }
+`
+
+const Buttondiv = styled.div`
+  margin: 0 10px 10px 0;
+  text-align: right;
 `
 
 export default function CreatePost() {
@@ -53,18 +64,28 @@ export default function CreatePost() {
     setPost(e.target.value)
   }
 
-
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setPost('')
+  }
 
   return (
     <Flexdiv>
-      <CreatePostContainer>
+      <CreatePostContainer type="submit" onSubmit={handleSubmit}>
         <TitleContent>
           <h2>Título</h2>
-          <img src="/star.svg"/>
+          <img src="/star.svg" />
         </TitleContent>
         <TextContent>
-          <Textarea placeholder="Criar Nota..." minRows={2}/>
+          <Textarea placeholder="Criar Nota..." minRows={2} value={post} onChange={handleChange} />
         </TextContent>
+        {post.length > 0 ? (
+          <Buttondiv>
+            <Button type="submit">Criar</Button>
+          </Buttondiv>
+        ) : (
+          ''
+        )}
       </CreatePostContainer>
     </Flexdiv>
   )

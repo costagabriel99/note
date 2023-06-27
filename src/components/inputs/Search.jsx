@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { useState } from 'react'
 
 const StyledSearch = styled.form`
   width: 530px;
@@ -45,9 +46,20 @@ const Button = styled.button`
 `
 
 export default function Search() {
+  const [search, setSearch] = useState('')
+
+  const handleChange = (e) => {
+    setSearch(e.target.value)
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setSearch('')
+  }
+
   return (
-    <StyledSearch type="submit">
-      <SearchNotes placeholder="Pesquisar Notas" />
+    <StyledSearch type="submit" onSubmit={handleSubmit}>
+      <SearchNotes placeholder="Pesquisar Notas" onChange={handleChange} value={search} />
       <Button type="submit">
         <Icon src="/search.svg" />
       </Button>
