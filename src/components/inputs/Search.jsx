@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const StyledSearch = styled.div`
+const StyledSearch = styled.form`
   width: 530px;
   box-sizing: border-box;
   position: relative;
@@ -36,11 +36,21 @@ const Icon = styled.img`
   background: transparent;
   outline: none;
 `
+const Button = styled.button`
+  border: none;
+  padding: 0;
+  margin: -20px;
+  background-color: transparent;
+  cursor: pointer;
+`
+
 export default function Search() {
   return (
-    <StyledSearch>
+    <StyledSearch type="submit">
       <SearchNotes placeholder="Pesquisar Notas" />
-      <Icon src="/search.svg" />
+      <Button type="submit">
+        <Icon src="/search.svg" />
+      </Button>
     </StyledSearch>
   )
 }

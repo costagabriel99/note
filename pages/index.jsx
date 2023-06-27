@@ -1,10 +1,11 @@
 import Navbar from "../src/components/layouts/Navbar"
+import CreatePost from "../src/components/inputs/CreatePost"
 
 function HomePage() {
   return (
     <>
       <Navbar />
-      <div>Olá Mundo</div>
+      <CreatePost />
     </>
   )
 
