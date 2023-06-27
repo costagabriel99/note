@@ -7,10 +7,10 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
   }
 
   body {
-    font-family: 'Roboto', sans-serif;
     color: ${(props) => props.theme.black};
     background-color: ${(props) => props.theme.background};
   }
@@ -24,6 +24,17 @@ const GlobalStyle = createGlobalStyle`
 
   a:hover {
     color: ${(props) => props.theme.primaryHover}
+  }
+
+  h2 {
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+  }
+
+  p {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
   }
 `
 
