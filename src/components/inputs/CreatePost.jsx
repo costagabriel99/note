@@ -57,7 +57,12 @@ const Buttondiv = styled.div`
   text-align: right;
 `
 
-export default function CreatePost() {
+export const FavoriteImg = styled.img`
+  cursor: pointer;
+  font-size: 19px;
+`
+
+export default function CreatePost({ onClick, favorite }) {
   const [post, setPost] = useState('')
 
   const handleChange = (e) => {
@@ -74,7 +79,11 @@ export default function CreatePost() {
       <CreatePostContainer type="submit" onSubmit={handleSubmit}>
         <TitleContent>
           <h2>Título</h2>
-          <img src="/star.svg" />
+          {!favorite ? (
+            <FavoriteImg src="/star.svg" onClick={onClick} />
+          ) : (
+            <FavoriteImg src="/favoritestar.svg" onClick={onClick} />
+          )}
         </TitleContent>
         <TextContent>
           <Textarea placeholder="Criar Nota..." minRows={2} value={post} onChange={handleChange} />

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { TitleContent } from '../inputs/CreatePost'
+import { FavoriteImg, TitleContent } from '../inputs/CreatePost'
 
 const CardContainer = styled.div`
   width: 390px;
@@ -18,12 +18,16 @@ const TextContent = styled.div`
   }
 `
 
-export default function Card({titulo, favorite, text}) {
+export default function Card({ titulo, text, onClick, favorite }) {
   return (
     <CardContainer>
       <TitleContent>
         <h2>{titulo}</h2>
-        <img src={favorite} />
+        {!favorite ? (
+          <FavoriteImg src="/star.svg" onClick={onClick} />
+        ) : (
+          <FavoriteImg src="/favoritestar.svg" onClick={onClick} />
+        )}
       </TitleContent>
       <TextContent>
         <p>{text}</p>
@@ -34,6 +38,5 @@ export default function Card({titulo, favorite, text}) {
 
 Card.defaultProps = {
   titulo: 'Título',
-  favorite: '/star.svg',
   text: 'Clique ou arraste o arquivo para esta área para fazer upload'
 }
