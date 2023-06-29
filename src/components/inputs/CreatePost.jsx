@@ -57,13 +57,14 @@ const Buttondiv = styled.div`
   text-align: right;
 `
 
-export const FavoriteImg = styled.img`
+const Icons = styled.img`
   cursor: pointer;
   font-size: 19px;
 `
 
-export default function CreatePost({ onClick, favorite }) {
+export default function CreatePost() {
   const [post, setPost] = useState('')
+  const [favorited, setFavorited] = useState(false)
 
   const handleChange = (e) => {
     setPost(e.target.value)
@@ -74,15 +75,20 @@ export default function CreatePost({ onClick, favorite }) {
     setPost('')
   }
 
+  const handleClick = () => {
+    setFavorited(!favorited)
+    console.log('Favorito', favorited)
+  }
+
   return (
     <Flexdiv>
       <CreatePostContainer type="submit" onSubmit={handleSubmit}>
         <TitleContent>
           <h2>Título</h2>
-          {!favorite ? (
-            <FavoriteImg src="/star.svg" onClick={onClick} />
+          {!favorited ? (
+            <Icons src="/star.svg" onClick={handleClick} />
           ) : (
-            <FavoriteImg src="/favoritestar.svg" onClick={onClick} />
+            <Icons src="/favoritestar.svg" onClick={handleClick} />
           )}
         </TitleContent>
         <TextContent>
