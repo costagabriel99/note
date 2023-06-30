@@ -3,8 +3,14 @@ import styled from 'styled-components'
 
 import { Icons } from '../cards/Card'
 
+const SetColors = styled.div`
+  position: relative;
+`
+
 const ColorContainer = styled.div`
-  display: block;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 5px;
   width: 575px;
   height: 46px;
   border-radius: 9px;
@@ -13,20 +19,23 @@ const ColorContainer = styled.div`
   box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.25);
   bottom: -50px;
   position: absolute;
-`
-const ChooseColor = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  width: 100%;
-  height: 100%;
-  padding: 5px;
+  z-index: 100;
+
+  @media (max-width: 700px) {
+    width: 286px;
+    height: 96px;
+    bottom: -100px;
+    flex-wrap: wrap;
+  }
 `
 
 const Color = styled.div`
-  width: 35px;
-  height: 36px;
-  border-radius: 35px;
+  position: sticky;
+  min-width: 35px;
+  max-width: 35px;
+  min-height: 35px;
+  max-height: 35px;
+  border-radius: 40px;
   content: '';
   cursor: pointer;
   background-color: ${(props) => {
@@ -44,9 +53,6 @@ const Color = styled.div`
     else if (props.$BGcolor === 'brown') return props.theme.brown
     else return props.theme.white
   }};
-`
-const SetColors = styled.div`
-  position: relative;
 `
 
 export default function Options({ colors = [] }) {
@@ -66,15 +72,13 @@ export default function Options({ colors = [] }) {
       <Icons src="/color.svg" alt="changeColorbg" onClick={handleClickColor} $isChange={show} />
       {show ? (
         <ColorContainer>
-          <ChooseColor>
-            {colors.map((color, pos) => (
-              <Color
-                key={`Options-color-${pos}`}
-                onClick={() => handleClick(color.onClick)}
-                $BGcolor={color.optionColor}
-              />
-            ))}
-          </ChooseColor>
+          {colors.map((color, pos) => (
+            <Color
+              key={`Options-color-${pos}`}
+              onClick={() => handleClick(color.onClick)}
+              $BGcolor={color.optionColor}
+            />
+          ))}
         </ColorContainer>
       ) : (
         ''

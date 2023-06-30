@@ -9,19 +9,41 @@ const CardsContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px 6%;
-  span {
+`
+const Subtitle = styled.div`
+  @media (max-width: 600px) {
+    display: flex;
+    justify-content: center;
+  }
+  p {
+    max-width: 390px;
+    flex: 1;
+    text-align: left;
     padding-left: 20px;
     margin-top: 20px;
     font-size: 12px;
   }
 `
+
 const FavoriteCards = styled.div`
   display: flex;
   align-items: center;
+  gap: 35px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    margin-bottom: 30px;
+    align-items: center;
+  }
 `
 const OtherCards = styled.div`
   display: flex;
   align-items: center;
+  gap: 35px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `
 
 function HomePage() {
@@ -36,15 +58,20 @@ function HomePage() {
       <Navbar />
       <CreatePost onClick={handleClick} />
       <CardsContainer>
-        <span>Favoritos</span>
+        <Subtitle>
+          <p>Favoritos</p>
+        </Subtitle>
         <FavoriteCards>
-          <Card onClick={handleClick} />
+          <Card />
+          <Card />
         </FavoriteCards>
-          <span>Outros</span>
+        <Subtitle>
+          <p>Outros</p>
+        </Subtitle>
         <OtherCards>
           <Card />
+          <Card />
         </OtherCards>
-        
       </CardsContainer>
     </>
   )

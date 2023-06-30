@@ -9,6 +9,10 @@ const Flexdiv = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 30px;
+
+  @media (max-width: 600px) {
+    margin: 30px 20px 0 25px;
+  }
 `
 
 const CreatePostContainer = styled.form`
@@ -17,6 +21,11 @@ const CreatePostContainer = styled.form`
   border: 1px solid ${(props) => props.theme.inputBorder};
   box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.25);
   background-color: ${(props) => props.theme.white};
+
+  @media (max-width: 600px) {
+    border-radius: 25px;
+    max-width: 390px;
+  }
 `
 
 export const TitleContent = styled.div`
@@ -45,7 +54,9 @@ const Textarea = styled(TextareaAutosize)`
   resize: none;
   border: none;
   padding: 15px 20px;
+  margin-bottom: 20px;
   width: 100%;
+  background-color: transparent;
 
   &:focus {
     outline: none;
@@ -92,7 +103,7 @@ export default function CreatePost() {
           )}
         </TitleContent>
         <TextContent>
-          <Textarea placeholder="Criar Nota..." minRows={2} value={post} onChange={handleChange} />
+          <Textarea placeholder="Criar Nota..." value={post} onChange={handleChange} />
         </TextContent>
         {post.length > 0 ? (
           <Buttondiv>

@@ -3,8 +3,11 @@ import { useState } from 'react'
 
 const StyledSearch = styled.form`
   width: 530px;
-  box-sizing: border-box;
   position: relative;
+
+  @media (max-width: 600px) {
+    width: 315px;
+  }
 `
 
 const SearchNotes = styled.input`

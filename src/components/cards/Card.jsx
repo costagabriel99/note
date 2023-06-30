@@ -5,6 +5,8 @@ import { TitleContent } from '../inputs/CreatePost'
 import Options from '../layouts/Options'
 
 const CardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 390px;
   min-height: 438px;
   border-radius: 25px;
@@ -25,6 +27,11 @@ const CardContainer = styled.div`
     else if (props.$bgColor === 'brown') return props.theme.brown
     else return props.theme.white
   }};
+
+  @media (max-width: 600px) {
+    width: auto;
+    max-width: 390px;
+  }
 `
 const TextContent = styled.div`
   padding: 15px 30px 20px 20px;
