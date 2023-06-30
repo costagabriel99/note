@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components'
 import { useState } from 'react'
 
 import { TitleContent } from '../inputs/CreatePost'
+import Options from '../layouts/Options'
 
 const CardContainer = styled.div`
   width: 390px;
@@ -9,13 +10,21 @@ const CardContainer = styled.div`
   border-radius: 25px;
   box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.25);
   margin-top: 10px;
-  position: relative;
-
-  ${(props) =>
-    props.$bgColor === 'white' &&
-    css`
-      background-color: #fff;
-    `}
+  background-color: ${(props) => {
+    if (props.$bgColor === 'lightBlue') return props.theme.lightBlue
+    else if (props.$bgColor === 'brightGreen') return props.theme.brightGreen
+    else if (props.$bgColor === 'yellow') return props.theme.yellow
+    else if (props.$bgColor === 'salmon') return props.theme.salmon
+    else if (props.$bgColor === 'rose') return props.theme.rose
+    else if (props.$bgColor === 'blue') return props.theme.blue
+    else if (props.$bgColor === 'pink') return props.theme.pink
+    else if (props.$bgColor === 'lightGreen') return props.theme.lightGreen
+    else if (props.$bgColor === 'lightOrange') return props.theme.lightOrange
+    else if (props.$bgColor === 'lightGrey') return props.theme.lightGrey
+    else if (props.$bgColor === 'darkGrey') return props.theme.darkGrey
+    else if (props.$bgColor === 'brown') return props.theme.brown
+    else return props.theme.white
+  }};
 `
 const TextContent = styled.div`
   padding: 15px 30px 20px 20px;
@@ -39,125 +48,9 @@ const BottomContent = styled.div`
     align-items: flex-end;
   }
 `
-const ColorContainer = styled.div`
-  display: ${(props) => (props.show ? 'block' : 'none')};
-  width: 575px;
-  height: 46px;
-  border-radius: 9px;
-  border: 1px solid ${(props) => props.theme.inputBorder};
-  background: ${(props) => props.theme.white};
-  box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.25);
-  left: 60px;
-  position: absolute;
-`
-const ChooseColor = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  width: 100%;
-  height: 100%;
-`
-
-const Color1 = styled.div`
-  width: 35px;
-  height: 35px;
-  border-radius: 35px;
-  background-color: #bae2ff;
-  content: '';
-  cursor: pointer;
-`
-const Color2 = styled.div`
-  width: 35px;
-  height: 35px;
-  border-radius: 35px;
-  background-color: #b9ffdd;
-  content: '';
-  cursor: pointer;
-`
-const Color3 = styled.div`
-  width: 35px;
-  height: 35px;
-  border-radius: 35px;
-  background-color: #ffe8ac;
-  content: '';
-  cursor: pointer;
-`
-const Color4 = styled.div`
-  width: 35px;
-  height: 35px;
-  border-radius: 35px;
-  background-color: #ffcab9;
-  content: '';
-  cursor: pointer;
-`
-const Color5 = styled.div`
-  width: 35px;
-  height: 35px;
-  border-radius: 35px;
-  background-color: #f99494;
-  content: '';
-  cursor: pointer;
-`
-const Color6 = styled.div`
-  width: 35px;
-  height: 35px;
-  border-radius: 35px;
-  background-color: #9dd6ff;
-  content: '';
-  cursor: pointer;
-`
-const Color7 = styled.div`
-  width: 35px;
-  height: 35px;
-  border-radius: 35px;
-  background-color: #eca1ff;
-  content: '';
-  cursor: pointer;
-`
-const Color8 = styled.div`
-  width: 35px;
-  height: 35px;
-  border-radius: 35px;
-  background-color: #daff8b;
-  content: '';
-  cursor: pointer;
-`
-const Color9 = styled.div`
-  width: 35px;
-  height: 35px;
-  border-radius: 35px;
-  background-color: #ffa285;
-  content: '';
-  cursor: pointer;
-`
-const Color10 = styled.div`
-  width: 35px;
-  height: 35px;
-  border-radius: 35px;
-  background-color: #cdcdcd;
-  content: '';
-  cursor: pointer;
-`
-const Color11 = styled.div`
-  width: 35px;
-  height: 35px;
-  border-radius: 35px;
-  background-color: #979797;
-  content: '';
-  cursor: pointer;
-`
-const Color12 = styled.div`
-  width: 35px;
-  height: 35px;
-  border-radius: 35px;
-  background-color: #a99a7c;
-  content: '';
-  cursor: pointer;
-`
 
 export const Icons = styled.img`
   cursor: pointer;
-  font-size: 24px;
 
   ${(props) =>
     props.$isEditing &&
@@ -177,7 +70,6 @@ export const Icons = styled.img`
 export default function Card({ titulo, text }) {
   const [favorite, setFavorite] = useState(false)
   const [editPost, setEditPost] = useState(false)
-  const [changeColor, setChangeColor] = useState(false)
   const [deletePost, setDeletePost] = useState(false)
   const [bgColor, setBgColor] = useState('white')
 
@@ -189,19 +81,49 @@ export default function Card({ titulo, text }) {
     setEditPost(!editPost)
     console.log('Edit', editPost)
   }
-  const handleClickColor = () => {
-    setChangeColor(!changeColor)
-    console.log('ChangeColor', changeColor)
-  }
+
   const handleClickDelete = () => {
     setDeletePost(!deletePost)
     console.log('Delete', deletePost)
   }
 
-  // const handleClicksetColor = (color) => {
-  //   setBgColor(color)
-  //   console.log(bgColor)
-  // }
+  // Funções handle para trocar a cor do componente:
+  const handleClicklightBlue = () => {
+    setBgColor('lightBlue')
+  }
+  const handleClickbrightGreen = () => {
+    setBgColor('brightGreen')
+  }
+  const handleClickyellow = () => {
+    setBgColor('yellow')
+  }
+  const handleClicksalmon = () => {
+    setBgColor('salmon')
+  }
+  const handleClickrose = () => {
+    setBgColor('rose')
+  }
+  const handleClickblue = () => {
+    setBgColor('blue')
+  }
+  const handleClickpink = () => {
+    setBgColor('pink')
+  }
+  const handleClicklightGreen = () => {
+    setBgColor('lightGreen')
+  }
+  const handleClicklightOrange = () => {
+    setBgColor('lightOrange')
+  }
+  const handleClicklightGrey = () => {
+    setBgColor('lightGrey')
+  }
+  const handleClickdarkGrey = () => {
+    setBgColor('darkGrey')
+  }
+  const handleClickbrown = () => {
+    setBgColor('brown')
+  }
 
   return (
     <CardContainer $bgColor={bgColor}>
@@ -219,31 +141,61 @@ export default function Card({ titulo, text }) {
       <BottomContent>
         <div>
           <Icons src="/edit.svg" alt="editpost" onClick={handleClickEdit} $isEditing={editPost} />
-          <Icons
-            src="/color.svg"
-            alt="changeColorbg"
-            onClick={handleClickColor}
-            $isChange={changeColor}
+          <Options
+            colors={[
+              {
+                onClick: handleClicklightBlue,
+                optionColor: 'lightBlue'
+              },
+              {
+                onClick: handleClickbrightGreen,
+                optionColor: 'brightGreen'
+              },
+              {
+                onClick: handleClickyellow,
+                optionColor: 'yellow'
+              },
+              {
+                onClick: handleClicksalmon,
+                optionColor: 'salmon'
+              },
+              {
+                onClick: handleClickrose,
+                optionColor: 'rose'
+              },
+              {
+                onClick: handleClickblue,
+                optionColor: 'blue'
+              },
+              {
+                onClick: handleClickpink,
+                optionColor: 'pink'
+              },
+              {
+                onClick: handleClicklightGreen,
+                optionColor: 'lightGreen'
+              },
+              {
+                onClick: handleClicklightOrange,
+                optionColor: 'lightOrange'
+              },
+              {
+                onClick: handleClicklightGrey,
+                optionColor: 'lightGrey'
+              },
+              {
+                onClick: handleClickdarkGrey,
+                optionColor: 'darkGrey'
+              },
+              {
+                onClick: handleClickbrown,
+                optionColor: 'brown'
+              }
+            ]}
           />
         </div>
         <Icons src="/xdelete.svg" alt="deletePost" onClick={handleClickDelete} />
       </BottomContent>
-      <ColorContainer show={changeColor}>
-        <ChooseColor>
-          <Color1 onClick={console.log('lightBlue')} />
-          <Color2 onClick={console.log('brightGreen')} />
-          <Color3 onClick={console.log('yellow')} />
-          <Color4 onClick={console.log('salmon')} />
-          <Color5 onClick={console.log('rose')} />
-          <Color6 onClick={console.log('blue')} />
-          <Color7 onClick={console.log('pink')} />
-          <Color8 onClick={console.log('lightGreen')} />
-          <Color9 onClick={console.log('lightOrange')} />
-          <Color10 onClick={console.log('lightGrey')} />
-          <Color11 onClick={console.log('darkGrey')} />
-          <Color12 onClick={console.log('brown')} />
-        </ChooseColor>
-      </ColorContainer>
     </CardContainer>
   )
 }
