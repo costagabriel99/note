@@ -1,6 +1,6 @@
-import connect from 'next-connect'
 import Joi from 'joi'
 
+import databaseHandler from '../../../lib/middlewares/nextConnect'
 import { createPost } from '../../../modules/post/post.service'
 import validation from '../../../lib/middlewares/validation'
 
@@ -11,7 +11,7 @@ const postSchema = Joi.object({
   favorite: Joi.boolean().required()
 })
 
-const post = connect().post(validation({ body: postSchema }), (req, res) => {
+const post = databaseHandler().post(validation({ body: postSchema }), (req, res) => {
   createPost(req.body)
   res.status(200).json({ teste: 'ok' })
 })
