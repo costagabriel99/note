@@ -11,9 +11,14 @@ const postSchema = Joi.object({
   favorite: Joi.boolean().required()
 })
 
-const post = databaseHandler().post(validation({ body: postSchema }), (req, res) => {
-  createPost(req.body)
-  res.status(200).json({ teste: 'ok' })
+const post = databaseHandler().post(validation({ body: postSchema }), async (req, res) => {
+  try {
+    const post = await createPost(req.body)
+    res.status(201).json(post)
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 })
 
 export default post
