@@ -31,7 +31,6 @@ const CreatePostContainer = styled.form`
 export const TitleContent = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 0 20px;
   position: relative;
   padding: 15px 20px;
   ::after {
@@ -42,6 +41,22 @@ export const TitleContent = styled.div`
     bottom: 0;
     height: 1px;
     background-color: ${(props) => props.theme.inputBorder};
+  }
+`
+
+const TitleInput = styled.input`
+  font-size: 14px;
+  font-weight: 700;
+  color: ${(props) => props.theme.black};
+  border: none;
+  ::-webkit-input-placeholder {
+    font-size: 14px;
+    font-weight: 700;
+    color: ${(props) => props.theme.black};
+  }
+
+  &:focus {
+    outline: none;
   }
 `
 
@@ -75,10 +90,17 @@ const Icons = styled.img`
 
 export default function CreatePost() {
   const [post, setPost] = useState('')
+  const [titlePost, setTitlePost] = useState('')
   const [favorited, setFavorited] = useState(false)
 
-  const handleChange = (e) => {
+  const handlePostChange = (e) => {
     setPost(e.target.value)
+    console.log(post)
+  }
+
+  const handleTitleChange = (e) => {
+    setTitlePost(e.target.value)
+    console.log(titlePost)
   }
 
   const handleSubmit = (e) => {
@@ -94,8 +116,8 @@ export default function CreatePost() {
   return (
     <Flexdiv>
       <CreatePostContainer type="submit" onSubmit={handleSubmit}>
-        <TitleContent>
-          <h2>Título</h2>
+        <TitleContent value={titlePost} onChange={handleTitleChange}>
+          <TitleInput placeholder="Título" />
           {!favorited ? (
             <Icons src="/star.svg" onClick={handleClick} />
           ) : (
@@ -103,7 +125,7 @@ export default function CreatePost() {
           )}
         </TitleContent>
         <TextContent>
-          <Textarea placeholder="Criar Nota..." value={post} onChange={handleChange} />
+          <Textarea placeholder="Criar Nota..." value={post} onChange={handlePostChange} />
         </TextContent>
         {post.length > 0 ? (
           <Buttondiv>

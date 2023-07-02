@@ -1,4 +1,4 @@
-export const createPost = () => {
-  console.log('Post Criado')
+export const createPost = (body) => {
+  console.log(body)
   return true
 }
