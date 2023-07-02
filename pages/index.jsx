@@ -47,16 +47,10 @@ const OtherCards = styled.div`
 `
 
 function HomePage() {
-  const [favorite, setFavorite] = useState(false)
-
-  const handleClick = () => {
-    setFavorite(!favorite)
-  }
-
   return (
     <>
       <Navbar />
-      <CreatePost onClick={handleClick} />
+      <CreatePost />
       <CardsContainer>
         <Subtitle>
           <p>Favoritos</p>
