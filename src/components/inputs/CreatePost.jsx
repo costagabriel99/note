@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import axios from 'axios'
 import styled from 'styled-components'
 import TextareaAutosize from 'react-textarea-autosize'
 
@@ -83,6 +84,19 @@ const Buttondiv = styled.div`
   text-align: right;
 `
 
+const Favorite = styled.div`
+  position: relative;
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+`
+
 const Icons = styled.img`
   cursor: pointer;
   font-size: 19px;
@@ -90,42 +104,67 @@ const Icons = styled.img`
 
 export default function CreatePost() {
   const [post, setPost] = useState('')
-  const [titlePost, setTitlePost] = useState('')
-  const [favorited, setFavorited] = useState(false)
+  const [title, setTitle] = useState('Título')
+  const [favorite, setFavorited] = useState(false)
 
   const handlePostChange = (e) => {
     setPost(e.target.value)
-    console.log(post)
   }
 
   const handleTitleChange = (e) => {
-    setTitlePost(e.target.value)
-    console.log(titlePost)
+    setTitle(e.target.value)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setPost('')
+
+    try {
+      const { status } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/post/post`, {
+        title,
+        favorite,
+        post
+      })
+      if (status === 201) {
+        setPost('')
+        setTitle('Título')
+        setFavorited(false)
+      }
+    } catch (error) {}
   }
 
   const handleClick = () => {
-    setFavorited(!favorited)
-    console.log('Favorito', favorited)
+    setFavorited(!favorite)
   }
 
   return (
     <Flexdiv>
       <CreatePostContainer type="submit" onSubmit={handleSubmit}>
-        <TitleContent value={titlePost} onChange={handleTitleChange}>
-          <TitleInput placeholder="Título" />
-          {!favorited ? (
-            <Icons src="/star.svg" onClick={handleClick} />
+        <TitleContent>
+          <TitleInput
+            placeholder="Título"
+            value={title}
+            maxLength={120}
+            onChange={handleTitleChange}
+          />
+          {!favorite ? (
+            <Favorite>
+              <Icons src="/star.svg" />
+              <input type="checkbox" value={favorite} onChange={handleClick} />
+            </Favorite>
           ) : (
-            <Icons src="/favoritestar.svg" onClick={handleClick} />
+            <Favorite>
+              <Icons src="/favoritestar.svg" />
+              <input type="checkbox" value={favorite} onChange={handleClick} />
+            </Favorite>
           )}
         </TitleContent>
         <TextContent>
-          <Textarea placeholder="Criar Nota..." value={post} onChange={handlePostChange} />
+          <Textarea
+            placeholder="Criar Nota..."
+            value={post}
+            onChange={handlePostChange}
+            maxLength={720}
+          />
         </TextContent>
         {post.length > 0 ? (
           <Buttondiv>
