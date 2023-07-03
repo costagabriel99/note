@@ -17,8 +17,8 @@ const StyledButton = styled.button`
 `
 
 const ColoredButton = styled(StyledButton)`
-  background-color: ${props => props.theme.primary};
-  color: ${props => props.theme.white};
+  background-color: ${(props) => props.theme.primary};
+  color: ${(props) => props.theme.white};
   font-weight: 700;
   font-size: 16px;
   box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.25);
@@ -27,8 +27,8 @@ const ColoredButton = styled(StyledButton)`
   margin-top: 10px;
 
   :hover {
-    background-color: ${props => props.theme.white};
-    color: ${props => props.theme.primary};
+    background-color: ${(props) => props.theme.white};
+    color: ${(props) => props.theme.primary};
   }
 `
 
@@ -36,6 +36,6 @@ export default function Button({ children }) {
   return <StyledButton>{children}</StyledButton>
 }
 
-export function SubmitButton({children}) {
+export function SubmitButton({ children }) {
   return <ColoredButton>{children}</ColoredButton>
 }
