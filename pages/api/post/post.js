@@ -1,24 +1,30 @@
-import Joi from 'joi'
+import { withIronSessionApiRoute } from 'iron-session/next'
 
 import databaseHandler from '../../../lib/middlewares/nextConnect'
-import { createPost } from '../../../modules/post/post.service'
+import { createPost, getPosts } from '../../../modules/post/post.service'
 import validation from '../../../lib/middlewares/validation'
+import { PostSchema } from '../../../modules/post/post.schema'
+import { ironConfig } from '../../../lib/middlewares/ironSession'
 
-const postSchema = Joi.object({
-  //Função criada para validar se os dados do post estão corretos antes deste ser criado no banco de dados
-  title: Joi.string().required().max(120),
-  post: Joi.string().required().max(720).min(3),
-  favorite: Joi.boolean().required()
-})
+const post = databaseHandler()
+  .post(validation({ body: PostSchema }), async (req, res) => {
+    try {
+      if (!req.session.user) return res.status(401).send
+      const newPost = await createPost(req.body, req.session.user)
+      res.status(201).send(newPost)
+    } catch (error) {
+      return res.status(500).send(error.message)
+    }
+  })
 
-const post = databaseHandler().post(validation({ body: postSchema }), async (req, res) => {
-  try {
-    const post = await createPost(req.body)
-    res.status(201).json(post)
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-})
+  .get(async (req, res) => {
+    try {
+      if (!req.session.user) return res.status(401).send()
+      const posts = await getPosts()
+      res.status(200).send(posts)
+    } catch (error) {
+      return res.status(500).send(error.message)
+    }
+  })
 
-export default post
+export default withIronSessionApiRoute(post, ironConfig)

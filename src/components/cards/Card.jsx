@@ -43,10 +43,10 @@ const TextContent = styled.div`
 
 const BottomContent = styled.div`
   display: flex;
-  min-height: 310px;
+  flex: 1;
   align-items: flex-end;
   justify-content: space-between;
-  padding: 0 20px 10px;
+  padding: 0 20px 11px;
 
   div {
     display: flex;
@@ -74,14 +74,13 @@ export const Icons = styled.img`
     `}
 `
 
-export default function Card({ titulo, text }) {
-  const [favorite, setFavorite] = useState(false)
+export default function Card({ titulo, text, favorite, color }) {
   const [editPost, setEditPost] = useState(false)
   const [deletePost, setDeletePost] = useState(false)
-  const [bgColor, setBgColor] = useState('white')
+  const [bgColor, setBgColor] = useState(color)
 
   const handleClickFavorite = () => {
-    setFavorite(!favorite)
+    //setFavorite(!favorite)
     console.log('Favorito', favorite)
   }
   const handleClickEdit = () => {
@@ -209,5 +208,7 @@ export default function Card({ titulo, text }) {
 
 Card.defaultProps = {
   titulo: 'Título',
-  text: 'Clique ou arraste o arquivo para esta área para fazer upload'
+  text: 'Clique ou arraste o arquivo para esta área para fazer upload',
+  favorite: 'false',
+  color: 'white'
 }

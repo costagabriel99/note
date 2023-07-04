@@ -1,4 +1,6 @@
 import styled from 'styled-components'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 import { withIronSessionSsr } from 'iron-session/next'
 
 import { ironConfig } from '../lib/middlewares/ironSession'
@@ -47,7 +49,18 @@ const OtherCards = styled.div`
   }
 `
 
-function HomePage({user}) {
+function HomePage({ user }) {
+  const [data, setData] = useState([])
+  const handlePosts = async () => {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/post/post`)
+    setData(response.data)
+  }
+
+  useEffect(() => {
+    handlePosts()
+  }, [])
+
+  console.log(data)
   return (
     <>
       <Navbar />
@@ -57,22 +70,36 @@ function HomePage({user}) {
           <p>Favoritos</p>
         </Subtitle>
         <FavoriteCards>
-          <Card />
-          <Card />
+          {data.map(
+            (post) =>
+              post.favorite && (
+                <Card
+                  key={post._id}
+                  favorite={post.favorite}
+                  titulo={post.title}
+                  text={post.post}
+                />
+              )
+          )}
         </FavoriteCards>
         <Subtitle>
           <p>Outros</p>
         </Subtitle>
         <OtherCards>
-          <Card />
-          <Card />
+          {data.map((post) =>
+            post.favorite ? (
+              ''
+            ) : (
+              <Card key={post._id} favorite={post.favorite} titulo={post.title} text={post.post} />
+            )
+          )}
         </OtherCards>
       </CardsContainer>
     </>
   )
 }
 
-export const getServerSideProps = withIronSessionSsr(async function getServerSideProps({req}) {
+export const getServerSideProps = withIronSessionSsr(async function getServerSideProps({ req }) {
   // função que roda no servidor se o usuário não está autenticado não mostra a página, redireciona ele para a page de login
   const user = req.session.user
   if (!user) {
