@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useSWRConfig } from 'swr'
 import axios from 'axios'
 import styled from 'styled-components'
 import TextareaAutosize from 'react-textarea-autosize'
@@ -103,6 +104,7 @@ const Icons = styled.img`
 `
 
 export default function CreatePost() {
+  const { mutate } = useSWRConfig() //fazer novamente um get no BD para buscar o pos craido
   const [post, setPost] = useState('')
   const [title, setTitle] = useState('Título')
   const [favorite, setFavorited] = useState(false)
@@ -128,6 +130,7 @@ export default function CreatePost() {
         setPost('')
         setTitle('Título')
         setFavorited(false)
+        mutate(`${process.env.NEXT_PUBLIC_API_URL}/api/post/post`)
       }
     } catch (error) {
       console.log(error)
@@ -147,6 +150,7 @@ export default function CreatePost() {
             value={title}
             maxLength={120}
             onChange={handleTitleChange}
+            required
           />
           {!favorite ? (
             <Favorite>
@@ -166,14 +170,13 @@ export default function CreatePost() {
             value={post}
             onChange={handlePostChange}
             maxLength={720}
+            required
           />
         </TextContent>
-        {post.length > 0 ? (
+        {post.length > 0 && (
           <Buttondiv>
-            <Button type="submit">Criar</Button>
+            <Button type="submit">Criar Post</Button>
           </Buttondiv>
-        ) : (
-          ''
         )}
       </CreatePostContainer>
     </Flexdiv>

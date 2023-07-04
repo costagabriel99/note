@@ -9,7 +9,7 @@ import { ironConfig } from '../../../lib/middlewares/ironSession'
 const post = databaseHandler()
   .post(validation({ body: PostSchema }), async (req, res) => {
     try {
-      if (!req.session.user) return res.status(401).send
+      if (!req.session.user) return res.status(401).send()
       const newPost = await createPost(req.body, req.session.user)
       res.status(201).send(newPost)
     } catch (error) {
@@ -20,7 +20,7 @@ const post = databaseHandler()
   .get(async (req, res) => {
     try {
       if (!req.session.user) return res.status(401).send()
-      const posts = await getPosts()
+      const posts = await getPosts(req.session.user)
       res.status(200).send(posts)
     } catch (error) {
       return res.status(500).send(error.message)

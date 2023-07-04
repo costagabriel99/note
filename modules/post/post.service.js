@@ -14,11 +14,12 @@ export const createPost = async (body, user) => {
   }
 }
 
-export const getPosts = async (limit = 128) => {
+export const getPosts = async (user) => {
   try {
-    return await Post.find().populate('userid', 'user').limit(limit)
+    return await Post.find({ userid: user.id }).populate('userid', 'user').limit(128)
   } catch (error) {
     console.error(error)
+
     throw error
   }
 }

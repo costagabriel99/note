@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
 import { withIronSessionSsr } from 'iron-session/next'
 import useSWR from 'swr'
 
@@ -15,7 +14,7 @@ const CardsContainer = styled.div`
   padding: 20px 6%;
 `
 const Subtitle = styled.div`
-  @media (max-width: 600px) {
+  @media (max-width: 926px) {
     display: flex;
     justify-content: center;
   }
@@ -33,26 +32,26 @@ const FavoriteCards = styled.div`
   display: flex;
   align-items: center;
   gap: 35px;
+  flex-wrap: wrap;
 
-  @media (max-width: 600px) {
-    flex-direction: column;
-    margin-bottom: 30px;
-    align-items: center;
+  @media (max-width: 926px) {
+    justify-content: center;
   }
 `
 const OtherCards = styled.div`
   display: flex;
   align-items: center;
   gap: 35px;
+  flex-wrap: wrap;
 
-  @media (max-width: 600px) {
-    flex-direction: column;
+  @media (max-width: 926px) {
+    justify-content: center;
   }
 `
 
 const fetcher = (url) => axios.get(url).then((res) => res.data)
 
-function HomePage({ user }) {
+function HomePage() {
   const { data } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}/api/post/post`, fetcher)
   return (
     <>
