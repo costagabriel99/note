@@ -22,8 +22,7 @@ export const loginUser = async (body) => {
     if (!password) throw new Error('incorrect password')
 
     return user
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error)
     throw error
   }

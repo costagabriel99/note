@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import Link from 'next/link'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
+import axios from 'axios'
 
 import Logo from '../src/components/layouts/Logo'
 import { SubmitButton } from '../src/components/layouts/Button'
@@ -55,6 +57,7 @@ const LoginForm = styled.form`
 `
 
 export default function LoginPage() {
+  const router = useRouter()
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
 
@@ -65,25 +68,48 @@ export default function LoginPage() {
   const handleChangePassword = (e) => {
     setPassword(e.target.value)
   }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      const { status } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/user/login`, {
+        user,
+        password
+      })
+      if (status === 200) {
+        router.push('/')
+      }
+    } catch (error) {
+      if (error.response.data === 'user not found')
+        return alert('O usuário não existe'), setUser('')
+      if (error.response.data === 'incorrect password')
+        return alert('Senha incorreta'), setPassword('')
+    }
+  }
+
   return (
     <LoginContent>
       <Brand>
         <Logo />
         <h2>CoreNotes</h2>
       </Brand>
-      <LoginForm>
+      <LoginForm onSubmit={handleSubmit}>
         <h1>Faça seu Login</h1>
         <input
           placeholder="Digite seu usuário"
           type="text"
           value={user}
           onChange={handleChangeLogin}
+          maxLength={50}
+          required
         />
         <input
           placeholder="Digite sua senha"
           type="password"
           value={password}
           onChange={handleChangePassword}
+          maxLength={64}
+          required
         />
         <SubmitButton type="submit">Fazer Login</SubmitButton>
       </LoginForm>

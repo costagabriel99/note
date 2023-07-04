@@ -4,6 +4,7 @@ import { useState } from 'react'
 const StyledSearch = styled.form`
   width: 530px;
   position: relative;
+  margin-right: 60px;
 
   @media (max-width: 600px) {
     width: 315px;

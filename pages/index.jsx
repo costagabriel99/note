@@ -1,7 +1,10 @@
+import styled from 'styled-components'
+import { withIronSessionSsr } from 'iron-session/next'
+
+import { ironConfig } from '../lib/middlewares/ironSession'
 import Navbar from '../src/components/layouts/Navbar'
 import CreatePost from '../src/components/inputs/CreatePost'
 import Card from '../src/components/cards/Card'
-import styled from 'styled-components'
 
 const CardsContainer = styled.div`
   display: flex;
@@ -44,7 +47,7 @@ const OtherCards = styled.div`
   }
 `
 
-function HomePage() {
+function HomePage({user}) {
   return (
     <>
       <Navbar />
@@ -68,5 +71,23 @@ function HomePage() {
     </>
   )
 }
+
+export const getServerSideProps = withIronSessionSsr(async function getServerSideProps({req}) {
+  // função que roda no servidor se o usuário não está autenticado não mostra a página, redireciona ele para a page de login
+  const user = req.session.user
+  if (!user) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/login'
+      }
+    }
+  }
+  return {
+    props: {
+      user
+    }
+  }
+}, ironConfig)
 
 export default HomePage

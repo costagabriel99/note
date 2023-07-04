@@ -129,7 +129,9 @@ export default function CreatePost() {
         setTitle('Título')
         setFavorited(false)
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const handleClick = () => {

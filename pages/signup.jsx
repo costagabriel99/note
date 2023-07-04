@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import Link from 'next/link'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
+import axios from 'axios'
 
 import Logo from '../src/components/layouts/Logo'
 import { SubmitButton } from '../src/components/layouts/Button'
@@ -55,6 +57,7 @@ const SigninForm = styled.form`
 `
 
 export default function SignupPage() {
+  const router = useRouter()
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
@@ -71,8 +74,20 @@ export default function SignupPage() {
     setName(e.target.value)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    try {
+      const { status } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/user/signup`, {
+        name,
+        user,
+        password
+      })
+      if (status === 201) {
+        router.push('/')
+      }
+    } catch (error) {
+      if (error.response.data.code === 11000) return alert('o usuário já existe'), setUser('')
+    }
   }
   return (
     <SingupContent>
@@ -82,13 +97,30 @@ export default function SignupPage() {
       </Brand>
       <SigninForm onSubmit={handleSubmit}>
         <h1>Faça seu Cadastro</h1>
-        <input placeholder="Digite seu nome" type="text" value={name} onChange={handleName} />
-        <input placeholder="Digite um usuário" type="text" value={user} onChange={handleLogin} />
+        <input
+          placeholder="Digite seu nome"
+          type="text"
+          value={name}
+          onChange={handleName}
+          maxLength={30}
+          required
+        />
+        <input
+          placeholder="Digite um usuário"
+          type="text"
+          value={user}
+          onChange={handleLogin}
+          maxLength={50}
+          required
+        />
         <input
           placeholder="Digite uma senha"
           type="password"
           value={password}
           onChange={handlePassword}
+          maxLength={64}
+          minLength={6}
+          required
         />
         <SubmitButton type="submit">Cadastrar</SubmitButton>
       </SigninForm>
