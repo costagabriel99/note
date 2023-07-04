@@ -1,5 +1,7 @@
 import styled, { css } from 'styled-components'
 import { useState } from 'react'
+import axios from 'axios'
+import { useSWRConfig } from 'swr'
 
 import { TitleContent } from '../inputs/CreatePost'
 import Options from '../layouts/Options'
@@ -74,23 +76,30 @@ export const Icons = styled.img`
     `}
 `
 
-export default function Card({ titulo, text, favorite, color }) {
+export default function Card({ titulo, text, favorite, color, id }) {
+  const { mutate } = useSWRConfig()
   const [editPost, setEditPost] = useState(false)
-  const [deletePost, setDeletePost] = useState(false)
   const [bgColor, setBgColor] = useState(color)
 
   const handleClickFavorite = () => {
     //setFavorite(!favorite)
     console.log('Favorito', favorite)
   }
-  const handleClickEdit = () => {
+  const handleClickEdit = async () => {
     setEditPost(!editPost)
     console.log('Edit', editPost)
   }
 
-  const handleClickDelete = () => {
-    setDeletePost(!deletePost)
-    console.log('Delete', deletePost)
+  const handleClickDelete = async () => {
+    console.log(id)
+    try {
+      const response = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/post/post?id=${id}`
+      )
+      if (response.status === 200) return mutate(`${process.env.NEXT_PUBLIC_API_URL}/api/post/post`)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   // Funções handle para trocar a cor do componente:

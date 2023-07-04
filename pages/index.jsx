@@ -70,6 +70,7 @@ function HomePage() {
                   favorite={post.favorite}
                   titulo={post.title}
                   text={post.post}
+                  id={post._id}
                 />
               )
           )}
@@ -82,7 +83,13 @@ function HomePage() {
             post.favorite ? (
               ''
             ) : (
-              <Card key={post._id} favorite={post.favorite} titulo={post.title} text={post.post} />
+              <Card
+                key={post._id}
+                favorite={post.favorite}
+                titulo={post.title}
+                text={post.post}
+                id={post._id}
+              />
             )
           )}
         </OtherCards>

@@ -15,6 +15,7 @@
     "axios": "^1.4.0",
     "iron-session": "^6.3.1",
     "joi": "^17.6.0",
+    "joi-objectid": "^4.0.2",
     "mongoose": "^7.3.1",
     "next": "^13.4.7",
     "next-connect": "^0.12.2",

@@ -23,3 +23,12 @@ export const getPosts = async (user) => {
     throw error
   }
 }
+
+export const deletePost = async (id, user) => {
+  try {
+    return await Post.findOneAndDelete({ _id: id, userid: user.id })
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
