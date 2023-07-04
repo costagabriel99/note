@@ -5,6 +5,7 @@ import { useSWRConfig } from 'swr'
 
 import { TitleContent } from '../inputs/CreatePost'
 import Options from '../layouts/Options'
+import { EditCardText } from './EditCard'
 
 const CardContainer = styled.div`
   display: flex;
@@ -80,18 +81,33 @@ export default function Card({ titulo, text, favorite, color, id }) {
   const { mutate } = useSWRConfig()
   const [editPost, setEditPost] = useState(false)
   const [bgColor, setBgColor] = useState(color)
+  const [favorited, setFavorited] = useState(favorite)
 
-  const handleClickFavorite = () => {
-    //setFavorite(!favorite)
-    console.log('Favorito', favorite)
+  const handleClickFavorite = async () => {
+    setFavorited(!favorited)
+    try {
+      const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/api/post/post`, {
+        id,
+        favorited
+      })
+      if (response.status === 200) {
+        mutate(`${process.env.NEXT_PUBLIC_API_URL}/api/post/post`)
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
+
   const handleClickEdit = async () => {
     setEditPost(!editPost)
-    console.log('Edit', editPost)
+  }
+
+  const onSaveEdit = () => {
+    setEditPost(false)
+    mutate(`${process.env.NEXT_PUBLIC_API_URL}/api/post/post`)
   }
 
   const handleClickDelete = async () => {
-    console.log(id)
     try {
       const response = await axios.delete(
         `${process.env.NEXT_PUBLIC_API_URL}/api/post/post?id=${id}`
@@ -102,42 +118,70 @@ export default function Card({ titulo, text, favorite, color, id }) {
     }
   }
 
-  // Funções handle para trocar a cor do componente:
+  // Função para trocar a cor do componente:
+
+  const ColorChange = async () => {
+    console.log(bgColor)
+    try {
+      const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/api/post/post`, {
+        id,
+        bgColor
+      })
+      if (response.status === 200) {
+        mutate(`${process.env.NEXT_PUBLIC_API_URL}/api/post/post`)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const handleClicklightBlue = () => {
     setBgColor('lightBlue')
+    ColorChange()
   }
   const handleClickbrightGreen = () => {
     setBgColor('brightGreen')
+    ColorChange()
   }
   const handleClickyellow = () => {
     setBgColor('yellow')
+    ColorChange()
   }
   const handleClicksalmon = () => {
     setBgColor('salmon')
+    ColorChange()
   }
   const handleClickrose = () => {
     setBgColor('rose')
+    ColorChange()
   }
   const handleClickblue = () => {
     setBgColor('blue')
+    ColorChange()
   }
   const handleClickpink = () => {
     setBgColor('pink')
+    ColorChange()
   }
   const handleClicklightGreen = () => {
     setBgColor('lightGreen')
+    ColorChange()
   }
   const handleClicklightOrange = () => {
     setBgColor('lightOrange')
+    ColorChange()
   }
   const handleClicklightGrey = () => {
     setBgColor('lightGrey')
+    ColorChange()
   }
   const handleClickdarkGrey = () => {
     setBgColor('darkGrey')
+    ColorChange()
   }
   const handleClickbrown = () => {
     setBgColor('brown')
+    ColorChange()
   }
 
   return (
@@ -151,7 +195,7 @@ export default function Card({ titulo, text, favorite, color, id }) {
         )}
       </TitleContent>
       <TextContent>
-        <p>{text}</p>
+        {editPost ? <EditCardText value={text} id={id} onSave={onSaveEdit} /> : <p>{text}</p>}
       </TextContent>
       <BottomContent>
         <div>

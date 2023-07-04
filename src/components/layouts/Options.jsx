@@ -60,7 +60,6 @@ export default function Options({ colors = [] }) {
 
   const handleClickColor = () => {
     setShow(!show)
-    console.log('ChangeColor', show)
   }
   const handleClick = (onClick) => {
     setShow(false)

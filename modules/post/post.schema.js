@@ -11,3 +11,10 @@ export const PostSchema = Joi.object({
 export const deletePostSchema = Joi.object({
   id: Joi.objectId().required()
 })
+
+export const editPostSchema = Joi.object({
+  post: Joi.string().required().max(720),
+  id: Joi.objectId().required(),
+  favorite: Joi.boolean(),
+  color: Joi.string()
+})

@@ -71,6 +71,7 @@ function HomePage() {
                   titulo={post.title}
                   text={post.post}
                   id={post._id}
+                  color={post.color}
                 />
               )
           )}

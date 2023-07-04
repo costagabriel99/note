@@ -6,7 +6,8 @@ export const createPost = async (body, user) => {
       title: body.title,
       post: body.post,
       favorite: body.favorite,
-      userid: user.id
+      userid: user.id,
+      color: 'white'
     })
   } catch (error) {
     console.error(error)
@@ -27,6 +28,44 @@ export const getPosts = async (user) => {
 export const deletePost = async (id, user) => {
   try {
     return await Post.findOneAndDelete({ _id: id, userid: user.id })
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
+export const editPost = async (body, user) => {
+  try {
+    return await Post.findOneAndUpdate(
+      { _id: body.id, userid: user.id },
+      { post: body.txt },
+      { new: true }
+    )
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
+export const editFavorite = async (body, user) => {
+  try {
+    return await Post.findOneAndUpdate(
+      { _id: body.id, userid: user.id },
+      { favorite: body.favorited },
+      { new: true }
+    )
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+export const editColor = async (body, user) => {
+  try {
+    return await Post.findOneAndUpdate(
+      { _id: body.id, userid: user.id },
+      { color: body.bgColor },
+      { new: true }
+    )
   } catch (error) {
     console.error(error)
     throw error

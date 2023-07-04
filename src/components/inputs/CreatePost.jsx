@@ -46,7 +46,7 @@ export const TitleContent = styled.div`
   }
 `
 
-const TitleInput = styled.input`
+export const TitleInput = styled.input`
   font-size: 14px;
   font-weight: 700;
   color: ${(props) => props.theme.black};
@@ -67,7 +67,7 @@ const TextContent = styled.div`
   box-sizing: content-box;
 `
 
-const Textarea = styled(TextareaAutosize)`
+export const Textarea = styled(TextareaAutosize)`
   resize: none;
   border: none;
   padding: 15px 20px;
